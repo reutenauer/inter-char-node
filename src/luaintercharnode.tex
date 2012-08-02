@@ -3,6 +3,6 @@
 \directlua{dofile(kpse.find_file('luaintercharnode.lua'))}
 
 \def\InterCharNodeOn{\directlua{activate()}}
-\def\InterCharNodeOff{\par\directlua{deactivate()}}% FIXME hack
+\def\InterCharNodeOff{\directlua{deactivate()}}
 
 \endinput
