@@ -1,6 +1,8 @@
+\input luatexbase.sty
+
 \directlua{dofile(kpse.find_file('luaintercharnode.lua'))}
 
 \def\InterCharNodeOn{\directlua{activate()}}
-\def\InterCharNodeOff{\directlua{deactivate()}}
+\def\InterCharNodeOff{\par\directlua{deactivate()}}% FIXME hack
 
 \endinput
