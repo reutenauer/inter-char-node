@@ -51,6 +51,15 @@ function intercharnode(head)
     texio.write_nl('term and log', node_info)
     prevnode = currnode
   end
+
+  texio.write_nl(node.types()[head.next.next.id])
+  texio.write_nl(head.next.next.font)
+  dofile('/usr/local/texlive/2011/texmf-dist/tex/context/base/l-table.lua')
+  texio.write_nl(table.serialize(font.fonts[head.next.next.font]))
+  for entry in pairs(font.fonts[head.next.next.font]) do
+    texio.write_nl(entry)
+  end
+  texio.write_nl(table.serialize(font.fonts[head.next.next.font].parameters, "font dimens"))
   return head
 end
 
