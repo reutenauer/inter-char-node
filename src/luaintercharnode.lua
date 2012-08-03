@@ -24,11 +24,20 @@ function intercharnode(head)
   -- inter_char_nodes[{ 1, 1 }] = emspace
   inter_char_nodes[1] = { }
   inter_char_nodes[1][1] = emspace
-  inter_char_nodes[1][2] = emspace
+  inter_char_nodes[1][2] = 'nobreakspace'
 
   function internodes(c1, c2)
     if inter_char_nodes[c1] then
       return inter_char_nodes[c1][c2]
+    end
+  end
+
+  local function special_interchars(name, currnode)
+    if name == 'nobreakspace' then
+      nbsp = node.new(kern_id, 1)
+      local currfont = font.fonts[currnode.font]
+      nbsp.kern = tex.sp(currfont.parameters.space .. 'sp')
+      return nbsp
     end
   end
 
@@ -41,7 +50,12 @@ function intercharnode(head)
       local currclass = charclass(currnode)
       if prevclass and currclass then
         local internode = internodes(prevclass, currclass)
-        if node.is_node(internode) then
+        if type(internode) == 'string' then
+          local sp = special_interchars(internode, currnode)
+          if sp then
+            node.insert_after(head, prevnode, sp)
+          end
+        elseif node.is_node(internode) then
           texio.write_nl("Inserting stuff")
           node.insert_after(head, prevnode, node.copy(internode))
         end
