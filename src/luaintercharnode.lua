@@ -19,10 +19,12 @@ function intercharnode(head)
   local emspace = node.new(kern_id, 1)
   emspace.kern = tex.sp('1em')
 
-  -- TODO Find something better than that
+  -- TODO Find something better than that.
+  -- Why the hell can’t I index a table with a table?
   -- inter_char_nodes[{ 1, 1 }] = emspace
   inter_char_nodes[1] = { }
   inter_char_nodes[1][1] = emspace
+  inter_char_nodes[1][2] = emspace
 
   function internodes(c1, c2)
     if inter_char_nodes[c1] then
