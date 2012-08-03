@@ -32,18 +32,6 @@ function intercharnode(head)
     end
   end
 
-  if node.is_node(emspace) then
-    texio.write_nl('emspace is a node')
-  else
-    texio.write_nl('emspace is NOT a node')
-  end
-
-  if node.is_node(inter_char_nodes[{ 1, 1 }]) then
-    texio.write_nl('internodes[{ 1, 1 }] is a node')
-  else
-    texio.write_nl('internodes[{ 1, 1 }] is NOT a node')
-  end
-
   local prevnode
   for currnode in node.traverse(head) do
     local node_info = 'NODE TYPE ' .. node_types()[currnode.id]
@@ -52,9 +40,7 @@ function intercharnode(head)
       local prevclass = charclass(prevnode)
       local currclass = charclass(currnode)
       if prevclass and currclass then
-        texio.write_nl(prevclass .. ' and ' .. currclass)
         local internode = internodes(prevclass, currclass)
-        texio.write_nl('internode is a ' .. type(internode))
         if node.is_node(internode) then
           texio.write_nl("Inserting stuff")
           node.insert_after(head, prevnode, node.copy(internode))
@@ -65,8 +51,6 @@ function intercharnode(head)
     texio.write_nl('term and log', node_info)
     prevnode = currnode
   end
-
-  texio.write_nl('internodes[{ 1, 1 }] is a ' .. type(inter_char_nodes[{ 1, 1 }]))
   return head
 end
 
