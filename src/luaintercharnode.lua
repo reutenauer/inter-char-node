@@ -36,7 +36,7 @@ function intercharnode(head)
     if name == 'nobreakspace' then
       nbsp = node.new(kern_id, 1)
       local currfont = font.fonts[currnode.font]
-      nbsp.kern = tex.sp(currfont.parameters.space .. 'sp')
+      nbsp.kern = currfont.parameters.space
       return nbsp
     end
   end
