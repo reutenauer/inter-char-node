@@ -1,19 +1,24 @@
+charclasses = { }
+
+function luatexcharclass(charcode, classcode)
+  charclasses[charcode] = classcode
+end
+
+for char = 0x41, 0x5A do luatexcharclass(char, 1) end
+for char = 0x61, 0x7A do luatexcharclass(char, 1) end
+luatexcharclass(0x3A, 2)
+
+print'FOO'
+for k, v in pairs(charclasses) do print(k, v) end
+print'BAR'
+
 function intercharnode(head)
   local inter_char_nodes = { }
   local glyph_id, kern_id = node.id('glyph'), node.id('kern')
   local node_types = node.types
 
-  local function isascii(charnode)
-    local c = charnode.char
-    return c > 0x40 and c <= 0x5A or c > 0x60 and c <= 0x7A
-  end
-
   local function charclass(charnode)
-    if isascii(charnode) then
-      return 1
-    elseif charnode.char == 0x3A then
-      return 2
-    end
+    return charclasses[charnode.char]
   end
 
   local emspace = node.new(kern_id, 1)
@@ -49,6 +54,7 @@ function intercharnode(head)
       local prevclass = charclass(prevnode)
       local currclass = charclass(currnode)
       if prevclass and currclass then
+        print'prevalss and currclass'
         local internode = internodes(prevclass, currclass)
         if type(internode) == 'string' then
           local sp = special_interchars(internode, currnode)
